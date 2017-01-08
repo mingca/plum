@@ -76,6 +76,7 @@
   "author": "Juriaan",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.15.3",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-runtime": "^6.15.0",
@@ -141,6 +142,7 @@
     "redbox-react": "^1.2.10",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
+    "toastr": "^2.1.2",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2"
   }
