@@ -18,7 +18,7 @@ import Header from '../components/Header'
 // }
 
 const mapStateToProps = (state) => ({
-  counter : state.counter
+  authenticated : state.authenticated
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
