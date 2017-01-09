@@ -1,60 +1,76 @@
 import React from 'react'
 import callApi from '../../../middlewares/api'
 import '../assets/stylesheet/signin.scss'
+import toastr from 'toastr'
 
-class Singin extends React.Component {
-	constructor(){
-		super();
+class Signin extends React.Component {
+	constructor(props, context){
+		super(props, context);
 		this.state = {
 			email: '',
 			password: ''
 		}
+		this.submit = this.submit.bind(this)
+		this.redirect = this.redirect.bind(this)
 	}
 	render() {
 		return (
 			<div>
-			  	<div class="form-group">
-					<label for="name" class="cols-sm-2 control-label">Your Name</label>
-					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name"/>
+
+				<div className="form-group">
+					<label htmlFor="email" className="cols-sm-2 control-label">Your Email</label>
+					<div className="cols-sm-10">
+						<div className="input-group">
+							<span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
+							<input type="text" className="form-control" name="email" id="email"  placeholder="Enter your Email" ref={c => this.state.email = c}/>
+						</div>
+					</div>
+					<label className="comment">We'll never share your email with anyone else.</label>
+
+				</div>
+				<div className="form-group">
+					<label htmlFor="password" className="cols-sm-2 control-label">Password</label>
+					<div className="cols-sm-10">
+						<div className="input-group">
+							<span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+							<input type="password" className="form-control" name="password" id="password"  placeholder="Enter your Password" ref={c => this.state.password = c}/>
 						</div>
 					</div>
 				</div>
-
-				<div class="form-group">
-					<label for="email" class="cols-sm-2 control-label">Your Email</label>
-					<div class="cols-sm-10">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-							<input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email"/>
-						</div>
-					</div>
+				<div className="form-group ">
+					<button type="button" className="btn btn-primary btn-lg login-button" onClick={this.submit}>Submit</button>
 				</div>
 			</div>
 		)
 	}
-	componentWillMount() {
+	submit() {
 		let params = {
-	      method: 'get',
-	      endpoint: 'info',
-	      data: null,
+	      method: 'post',
+	      endpoint: 'login',
+	      data: {email: this.state.email.value, password: this.state.password.value},
 	      authenticated: false
 	    }
 		callApi(params)
 		.then(response => {
-			this.props.setInfo(response.data.data.info)
-			console.log(response.data.data.info);
+			if (response.data.success) {
+				this.props.setToken(response.data.data.token)
+				this.redirect()
+			}else{
+				console.log(response.data.data.message);
+			}
 		})
-		// this.props.fetchInfo()
+	}
+	redirect() {
+		toastr.success('Login Success.')
+    	this.context.router.push('/profile')
 	}
 }
 
-Singin.propTypes = {
-  info     	: React.PropTypes.string.isRequired,
-  setInfo	: React.PropTypes.func.isRequired,
+Signin.propTypes = {
+	setToken: React.PropTypes.func.isRequired
 }
+Signin.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
-
-export default Singin
+export default Signin

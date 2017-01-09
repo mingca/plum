@@ -24,9 +24,7 @@ class HomeView extends React.Component {
 		callApi(params)
 		.then(response => {
 			this.props.setInfo(response.data.data.info)
-			console.log(response.data.data.info);
 		})
-		// this.props.fetchInfo()
 	}
 }
 

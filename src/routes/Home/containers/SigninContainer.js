@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setInfo } from '../modules/home'
+import { setToken } from '../modules/signin'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -13,11 +13,11 @@ import Signin from '../components/Signin'
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
-  setInfo
+  setToken
 }
 
 const mapStateToProps = (state) => ({
-  credentials: state.auth.credentials
+  
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signin)

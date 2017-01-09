@@ -1,20 +1,20 @@
 import { CALL_API } from '../../../middlewares/api';
 
-export const SET_INFO = "SET_INFO"
+export const SET_TOKEN = "SET_TOKEN"
 
-export function setInfo(info) {
-  return {type: SET_INFO, payload: info};
+export function setToken(token) {
+  return {type: SET_TOKEN, payload: token};
 }
 
 export const actions = {
-  setInfo
+  setToken
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_INFO]   : (state, action) =>  Object.assign({}, state, {info: action.payload}) 
+  [SET_TOKEN]   : (state, action) =>  Object.assign({}, state, {token: action.payload}) 
 }
 
 // ------------------------------------

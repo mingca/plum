@@ -25,7 +25,7 @@ export default function callApi(params) {
 
   return axios(config)
     .then(response => {
-      console.info('APICallResponseInfo: ', response);
+      // console.info('APICallResponseInfo: ', response);
 
       let newToken = response.data.token;
 
