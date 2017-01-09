@@ -62,7 +62,6 @@ class Signin extends React.Component {
 		})
 	}
 	redirect() {
-		toastr.success('Login Success.')
     	this.context.router.push('/profile')
 	}
 }

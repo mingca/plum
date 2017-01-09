@@ -10,7 +10,8 @@ class Profile extends React.Component {
 		super(props, context);
 		this.state = {
 			email: '',
-			password: ''
+			password: '',
+			authorId: ''
 		}
 		this.getProfile = this.getProfile.bind(this)
 		this.updateProfile = this.updateProfile.bind(this)
@@ -31,7 +32,8 @@ class Profile extends React.Component {
 						</div>
 					</div>
 				
-					<p>[here is place for concatenated result from long running call]</p>
+					{this.props.quote ? <p>{this.props.quote.quote}</p> : <p>[here is place for concatenated result from long running call]</p>}
+
 					<ModalDialog />
 				</div>
 			</div>
@@ -56,20 +58,21 @@ class Profile extends React.Component {
 		})
 	}
 	updateProfile() {
-		let params = {
+		let params1 = {
 	      method: 'get',
-	      endpoint: 'quote?token=' + this.props.token,
+	      endpoint: 'author?token=' + this.props.token,
 	      data: {},
 	      authenticated: true
 	    }
-
-	    this.props.requestQuote()
+	    
+	    this.props.requestStart()
 
 	    /* Get author */
-		callApi(params)
+		callApi(params1)
 		.then(response => {
 			if (response.data.success) {
 				this.props.setAuthor(response.data.data)
+				this.setState({authorId: response.data.data.authorId})
 				Promise.resolve()
 			}else{
 				console.log("GET AUTHOR ERROR:", response.data.data.message);
@@ -77,8 +80,14 @@ class Profile extends React.Component {
 			}
 		})
 		.then(() => {
+			let params2 = {
+		      method: 'get',
+		      endpoint: 'quote?token=' + this.props.token + '&authorId=' + this.state.authorId,
+		      data: {},
+		      authenticated: true
+		    }
 			/* Get Quote */
-			callApi(params)
+			callApi(params2)
 			.then(response => {
 				if (response.data.success) {
 					this.props.setQuote(response.data.data)
@@ -88,14 +97,17 @@ class Profile extends React.Component {
 					Promise.reject()
 				}
 			})
+			.then(() => {
+				/* Success */
+			})
+			.catch(() => {
+				/* Failure */
+			})
+			.then(() => {
+				this.props.requestFinish()
+			})
 		})
-		.then(() => {
-			/* Success */
-
-		})
-		.catch(() => {
-			/* Failure */
-		})
+		
 
 
 	}
@@ -105,7 +117,10 @@ Profile.propTypes = {
 	setProfile	: React.PropTypes.func.isRequired,
 	setAuthor	: React.PropTypes.func.isRequired,
 	setQuote	: React.PropTypes.func.isRequired,
-	requestQuote: React.PropTypes.func.isRequired,
-	token   	: React.PropTypes.string.isRequired
+	requestStart: React.PropTypes.func.isRequired,
+	requestFinish: React.PropTypes.func.isRequired,
+	token   	: React.PropTypes.string.isRequired,
+	author		: React.PropTypes.object.isRequired
+
 }
 export default Profile

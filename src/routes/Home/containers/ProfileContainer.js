@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setProfile, setAuthor, setQuote, requestQuote } from '../modules/profile'
+import { setProfile, setAuthor, setQuote, requestStart, requestFinish } from '../modules/profile'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -16,12 +16,15 @@ const mapDispatchToProps = {
   setProfile,
   setAuthor,
   setQuote,
-  requestQuote
+  requestStart,
+  requestFinish
 }
 
 const mapStateToProps = (state) => ({
-  token: state.auth.token,
-  profile: state.profile.profile
+  token   : state.auth.token,
+  profile : state.profile.profile,
+  author  : state.profile.author,
+  quote   : state.profile.quote,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile)

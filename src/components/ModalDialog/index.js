@@ -37,9 +37,10 @@ class ModalDialog extends React.Component {
     super();
 
     this.state = {
-      modalIsOpen: false
-    };
-
+      cancel: false,
+      /* set True if first request is finished */
+      step1 : false 
+    }
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -55,14 +56,17 @@ class ModalDialog extends React.Component {
   }
 
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState({cancel: true});
+  }
+  componentWillReceiveProps(nextProps) {
+      this.setState({ step1: nextProps.author });
   }
 
   render() {
     return (
       <div>
         <Modal
-          isOpen={this.state.modalIsOpen}
+          isOpen={this.props.modalIsOpen && !this.state.cancel}
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
@@ -70,8 +74,8 @@ class ModalDialog extends React.Component {
         >
 
           <h2 ref="subtitle">Requesting the quote</h2>
-          <p>Step1: Requestng author.. {this.props.author ? 'Completed' : ''}</p>
-          {this.props.author ? <p>Step2: Requestng author.. {  this.props.quote ? 'Completed' : ''}</p> : ''}
+          <p>Step1: Requestng author.. {this.state.step1 ? 'Completed' : ''}</p>
+          {this.state.step1 ? <p>Step2: Requestng quote.. {  this.props.quote ? 'Completed' : ''}</p> : ''}
           <button className = "btn btn-primary btn-lg" onClick={this.closeModal}>Cancel</button>
           
         </Modal>
@@ -81,8 +85,9 @@ class ModalDialog extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  author: state.profile.author,
-  quote : state.profile.quote
+  author    : state.profile.author,
+  quote     : state.profile.quote,
+  modalIsOpen: state.profile.requesting
 })
 
 export default connect(mapStateToProps)(ModalDialog)
