@@ -36,7 +36,7 @@ const ACTION_HANDLERS = {
   [SET_PROFILE]   	: (state, action) =>  Object.assign({}, state, {profile: action.payload}) ,
   [SET_AUTHOR]   	  : (state, action) =>  Object.assign({}, state, {author: action.payload}) ,
   [SET_QUOTE]       : (state, action) =>  Object.assign({}, state, {quote: action.payload}) ,
-  [REQUEST_START]   : (state, action) =>  Object.assign({}, state, {requesting: action.payload}) ,
+  [REQUEST_START]   : (state, action) =>  Object.assign({}, state, {requesting: action.payload, author:'', quote:''}) ,
   [REQUEST_FINISH]   : (state, action) =>  Object.assign({}, state, {requesting: action.payload}) 
 }
 

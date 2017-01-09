@@ -120,7 +120,5 @@ Profile.propTypes = {
 	requestStart: React.PropTypes.func.isRequired,
 	requestFinish: React.PropTypes.func.isRequired,
 	token   	: React.PropTypes.string.isRequired,
-	author		: React.PropTypes.object.isRequired
-
 }
 export default Profile
