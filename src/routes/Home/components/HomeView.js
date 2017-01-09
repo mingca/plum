@@ -1,6 +1,5 @@
 import React from 'react'
-import DuckImage from '../assets/Duck.jpg'
-import './HomeView.scss'
+import '../assets/stylesheet/home.scss'
 import callApi from '../../../middlewares/api'
 
 class HomeView extends React.Component {
