@@ -1,4 +1,3 @@
-import { CALL_API } from '../../../middlewares/api';
 
 export const SET_INFO = "SET_INFO"
 

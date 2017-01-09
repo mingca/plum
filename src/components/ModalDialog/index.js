@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import { connect } from 'react-redux'
 
 
 /*
@@ -50,7 +51,7 @@ class ModalDialog extends React.Component {
 
   afterOpenModal() {
     // references are now sync'd and can be accessed.
-    this.refs.subtitle.style.color = '#f00';
+    // this.refs.subtitle.style.color = '#f00';
   }
 
   closeModal() {
@@ -60,7 +61,6 @@ class ModalDialog extends React.Component {
   render() {
     return (
       <div>
-        <button onClick={this.openModal}>Open Modal</button>
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -69,19 +69,21 @@ class ModalDialog extends React.Component {
           contentLabel="Example Modal"
         >
 
-          <h2 ref="subtitle">Hello</h2>
-          <button onClick={this.closeModal}>close</button>
-          <div>I am a modal</div>
-          <form>
-            <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
-          </form>
+          <h2 ref="subtitle">Requesting the quote</h2>
+          <p>Step1: Requestng author.. {this.props.author ? 'Completed' : ''}</p>
+          {this.props.author ? <p>Step2: Requestng author.. {  this.props.quote ? 'Completed' : ''}</p> : ''}
+          <button className = "btn btn-primary btn-lg" onClick={this.closeModal}>Cancel</button>
+          
         </Modal>
       </div>
     );
   }
 }
-ReactDOM.render(<ModalDialog />, appElement);
+
+const mapStateToProps = (state) => ({
+  author: state.profile.author,
+  quote : state.profile.quote
+})
+
+export default connect(mapStateToProps)(ModalDialog)
+

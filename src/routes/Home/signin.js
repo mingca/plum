@@ -10,11 +10,6 @@ export default (store) => ({
       /*  Webpack - use require callback to define
           dependencies for bundling   */
       const Home = require('./containers/SigninContainer').default
-      const reducer = require('./modules/signin').default
-
-      /*  Add the reducer to the store on key 'counter'  */
-      injectReducer(store, { key: 'auth', reducer })
-
       /*  Return getComponent   */
       cb(null, Home)
 

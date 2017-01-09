@@ -2,7 +2,7 @@ import { browserHistory } from 'react-router';
 import toastr from 'toastr';
 import axios from 'axios';
 
-const BASE_URL = 'http://212.47.246.115:9510/';
+export const BASE_URL = 'http://212.47.246.115:9510/';
 
 export default function callApi(params) {
   let {data, method, endpoint, authenticated} = params;
@@ -13,7 +13,7 @@ export default function callApi(params) {
   if (authenticated) {
     if (! token) {
       toastr.error('Token not found, please login.');
-      browserHistory.push('login');
+      browserHistory.push('signin');
     }
 
     config.headers = { 'Authorization': `Bearer ${token}` };
@@ -27,7 +27,7 @@ export default function callApi(params) {
     .then(response => {
       // console.info('APICallResponseInfo: ', response);
 
-      let newToken = response.data.token;
+      let newToken = response.data.data.token;
 
       if (newToken) {
         localStorage.setItem('fame.auth.token', newToken);

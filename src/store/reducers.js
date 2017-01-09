@@ -5,6 +5,7 @@ export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
   	header	: require('../components/Header/modules/header').default,
     location: locationReducer,
+    auth	: require('../routes/Home/modules/signin').default,
     ...asyncReducers
   })
 }

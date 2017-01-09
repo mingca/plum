@@ -1,9 +1,9 @@
 import React from 'react'
-import callApi from '../../../middlewares/api'
+import callApi, {BASE_URL} from '../../../middlewares/api'
 import '../assets/stylesheet/profile.scss'
 import toastr from 'toastr'
-import ModalDialog from '../../../../../../components/ModalDialog'
-// import avatarPlaceholder from ''
+import ModalDialog from '../../../components/ModalDialog'
+
 
 class Profile extends React.Component {
 	constructor(props, context){
@@ -12,31 +12,38 @@ class Profile extends React.Component {
 			email: '',
 			password: ''
 		}
-		this.submit = this.submit.bind(this)
 		this.getProfile = this.getProfile.bind(this)
 		this.updateProfile = this.updateProfile.bind(this)
 	}
 	render() {
 		return (
-			<div>
-				<div>
-					<img src={'avatarPlaceholder'} alt="Alexey"/>
-				</div>
-				<div className="">
-					<h1> Welcome, Alexey!</h1>
-				</div>
-				<div className="form-group ">
-					<button type="button" className="btn btn-primary btn-lg login-button" onClick={this.updateProfile}>Update</button>
+			<div className="container-fluid">
+				<div className="row">
+					<div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+						<img src={`${BASE_URL}${this.props.profile.avatar}`} className="avatar" alt="Alexey"/>
+					</div>
+					<div className="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+						<div>
+							<h1> Welcome, Alexey!</h1>
+						</div>
+						<div className="form-group ">
+							<button type="button" className="btn btn-primary btn-lg login-button" onClick={this.updateProfile}>Update</button>
+						</div>
+					</div>
+				
+					<p>[here is place for concatenated result from long running call]</p>
+					<ModalDialog />
 				</div>
 			</div>
-			<ModalDialog />
 		)
+	}
+	componentWillMount() {
+		this.getProfile()
 	}
 	getProfile() {
 		let params = {
 	      method: 'get',
 	      endpoint: 'profile?token=' + this.props.token,
-	      data: {},
 	      authenticated: true
 	    }
 		callApi(params)
@@ -55,8 +62,9 @@ class Profile extends React.Component {
 	      data: {},
 	      authenticated: true
 	    }
-	    
-	    
+
+	    this.props.requestQuote()
+
 	    /* Get author */
 		callApi(params)
 		.then(response => {
@@ -88,11 +96,16 @@ class Profile extends React.Component {
 		.catch(() => {
 			/* Failure */
 		})
+
+
 	}
 }
 
 Profile.propTypes = {
-	setToken: React.PropTypes.func.isRequired,
-	token   : React.PropTypes.string.isRequired
+	setProfile	: React.PropTypes.func.isRequired,
+	setAuthor	: React.PropTypes.func.isRequired,
+	setQuote	: React.PropTypes.func.isRequired,
+	requestQuote: React.PropTypes.func.isRequired,
+	token   	: React.PropTypes.string.isRequired
 }
 export default Profile

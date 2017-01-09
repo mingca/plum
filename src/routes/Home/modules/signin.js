@@ -1,4 +1,3 @@
-import { CALL_API } from '../../../middlewares/api';
 
 export const SET_TOKEN = "SET_TOKEN"
 
@@ -21,7 +20,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  credentials: ''
+  token: ''
 }
 export default function singinReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

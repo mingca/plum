@@ -55,6 +55,7 @@ class Signin extends React.Component {
 			if (response.data.success) {
 				this.props.setToken(response.data.data.token)
 				this.redirect()
+				console.log("Success to login")
 			}else{
 				console.log(response.data.data.message);
 			}
