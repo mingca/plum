@@ -1,8 +1,8 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const COUNTER_INCREMENT = 'AUTH_LOGIN'
-export const COUNTER_DOUBLE_ASYNC = 'AUTH_LOGOUT'
+export const AUTH_LOGIN = 'AUTH_LOGIN'
+export const AUTH_LOGOUT = 'AUTH_LOGOUT'
 
 // ------------------------------------
 // Actions
@@ -15,7 +15,7 @@ export function login (credentials) {
 }
 export function logout (credentials) {
   return {
-    type    : AUTH_LOGIN,
+    type    : AUTH_LOGOUT,
     payload : credentials
   }
 }
@@ -47,8 +47,8 @@ export const actions = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [COUNTER_INCREMENT]    : (state, action) => state + action.payload,
-  [COUNTER_DOUBLE_ASYNC] : (state, action) => state * 2
+  [AUTH_LOGIN]    : (state, action) => state + action.payload,
+  [AUTH_LOGOUT] : (state, action) => state * 2
 }
 
 // ------------------------------------

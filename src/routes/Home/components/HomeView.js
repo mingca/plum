@@ -1,15 +1,40 @@
 import React from 'react'
 import DuckImage from '../assets/Duck.jpg'
 import './HomeView.scss'
+import callApi from '../../../middlewares/api'
 
-export const HomeView = () => (
-  <div>
-    <h4>Welcome!</h4>
-    <img
-      alt='This is a duck, because Redux!'
-      className='duck'
-      src={DuckImage} />
-  </div>
-)
+class HomeView extends React.Component {
+	constructor(){
+		super();
+
+	}
+	render() {
+		return (
+		  <div>
+		    <h4>{this.props.info}</h4>
+		  </div>
+		)
+	}
+	componentWillMount() {
+		let params = {
+	      method: 'get',
+	      endpoint: 'info',
+	      data: null,
+	      authenticated: false
+	    }
+		callApi(params)
+		.then(response => {
+			this.props.setInfo(response.data.data.info)
+			console.log(response.data.data.info);
+		})
+		// this.props.fetchInfo()
+	}
+}
+
+HomeView.propTypes = {
+  info     	: React.PropTypes.string.isRequired,
+  setInfo	: React.PropTypes.func.isRequired,
+}
+
 
 export default HomeView

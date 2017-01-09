@@ -1,11 +1,11 @@
 import { browserHistory } from 'react-router';
 import toastr from 'toastr';
 import axios from 'axios';
-// import {beginAjaxCall, ajaxCallError} from '../redux/actions/ajaxStatusActions';
 
 const BASE_URL = 'http://212.47.246.115:9510/';
 
-function callApi(data, method, endpoint, authenticated) {
+export default function callApi(params) {
+  let {data, method, endpoint, authenticated} = params;
   let url = BASE_URL + endpoint;
   let token = localStorage.getItem('fame.auth.token') || null;
   let config = { method, url };
@@ -67,37 +67,5 @@ function callApi(data, method, endpoint, authenticated) {
       }
 
       return payload;
-    });
-}
-
-export const CALL_API = Symbol('Call API');
-
-export default store => next => action => {
-  const callAPI = action[CALL_API];
-
-  if (typeof callAPI === 'undefined') {
-    return next(action);
-  }
-
-  let { data, method, endpoint, types, authenticated } = callAPI;
-  const [ requestType, successType, errorType ] = types;
-
-  next({ type: requestType });
-
-  return callApi(data, method, endpoint, authenticated).then(
-    response => {
-      console.log('MiddleWareResponse: ', response);
-
-      let { data } = response;
-
-      next({ data, type: successType });
-    },
-    error => {
-      console.log('Error: ', error);
-      next({ error, type: errorType });
-    }
-  )
-    .catch(errorResponse => {
-      console.log('ErrorResponse: ', errorResponse);
     });
 }
